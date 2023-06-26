@@ -1,3 +1,4 @@
+package calculator;
 
 import java.util.Scanner;
 
@@ -13,16 +14,18 @@ public class Calculator {
         int num2 = getInt();
         int result = calc(num1, num2, operation);
         System.out.println(result);
+
     }
+
     public static int getInt() {
-        int num;
+        int num = 0;
         if (scanner.hasNextInt()) {
             num = scanner.nextInt();
-        } else {
-            System.out.println("Вы допустили ошибку при вводе числа. Попробуйте еще раз.");
-            scanner.next();
-            num = getInt();
         }
+        if (num < 0 || num > 10) {
+            throw new IllegalArgumentException();
+        }
+
 
         return num;
     }
@@ -45,7 +48,11 @@ public class Calculator {
         switch (operation) {
             case '*' -> result = num1 * num2;
             case '+' -> result = num1 + num2;
-            case ',', '.', default -> {
+            case ',', '.' -> {
+                System.out.println("Операция не распознана. Повторите ввод.");
+                result = calc(num1, num2, getOperation());
+            }
+            default -> {
                 System.out.println("Операция не распознана. Повторите ввод.");
                 result = calc(num1, num2, getOperation());
             }
